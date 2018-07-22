@@ -12,7 +12,7 @@
 #======================================
 
 
-AMS_QUERY <- function(lan, kommun, text){
+ams_query <- function(lan, kommun, text){
   response <- AMS_API(path = "af/v0/platsannonser/matchning",
                       q = list(lanid = lan,
                                kommunid = kommun,
