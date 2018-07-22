@@ -10,7 +10,7 @@ library(jsonlite)
 #### API function ####
 
 
-AMS_API <- function(path, q) {
+ams_api <- function(path, q) {
   url <- "http://api.arbetsformedlingen.se/"
   link <- httr::modify_url(url = url, query = q, path = path)
   print(link)
