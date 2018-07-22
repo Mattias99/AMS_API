@@ -23,6 +23,7 @@ library(jsonlite)
 # AMS_QUERY
 #======================================
 
-norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistik")
-
-test <- do.call(rbind.data.frame, norrkoping$matchningslista$matchningdata)
+norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")
+stockholm <- ams_query(lan = 01, kommun = 0180, text = "statistiker")
+norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")
+norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")

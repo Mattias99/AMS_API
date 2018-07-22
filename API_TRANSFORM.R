@@ -2,16 +2,20 @@
 
 
 library("tidyverse")
-
+library("lubridate")
 
 #### TRANSFORMATION ####
 
 
-testdat <- str_sub(test$publiceraddatum, start = 1L, end = 10L) %>% ymd()
+norrdata <- do.call(rbind.data.frame, norrkoping$matchningslista$matchningdata) %>%
+  as.tibble()
 
-df <- as.tibble(testdat)
 
-api_df <- select(df,
+sthlmdata <- do.call(rbind.data.frame, stockholm$matchningslista$matchningdata) %>%
+  as.tibble()
+
+
+api_df <- select(norrdata,
                  annonsid,
                  annonsrubrik,
                  yrkesbenamning,
