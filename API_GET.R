@@ -19,6 +19,6 @@ ams_api <- function(path, q) {
    if (response$headers[9] != "application/json;charset=utf-8") {
     stop("API did not return json", call. = FALSE)
   }
-  jsonlite::fromJSON(jsonlite::content(response, "text"),
+  jsonlite::fromJSON(content(response, "text"),
                      simplifyVector = FALSE)
 }
