@@ -11,7 +11,8 @@ testdat <- str_sub(test$publiceraddatum, start = 1L, end = 10L) %>% ymd()
 
 df <- as.tibble(testdat)
 
-api_df <- select(df, annonsid,
+api_df <- select(df,
+                 annonsid,
                  annonsrubrik,
                  yrkesbenamning,
                  yrkesbenamningId, # Uppercase in recived data
