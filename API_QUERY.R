@@ -11,11 +11,20 @@
 # kommunid 0180 : Stockholm 
 #======================================
 
+# Job ads, meta data
 
 ams_query <- function(lan, kommun, text){
   response <- ams_api(path = "af/v0/platsannonser/matchning",
                       q = list(lanid = lan,
                                kommunid = kommun,
                                nyckelord = text))
+  return(response)
+}
+
+# Job ads, text
+
+ams_query_text <- function(id){
+  response <- ams_api(path = "af/v0/platsannonser/",
+                      q = list(annonsid = id))
   return(response)
 }
