@@ -12,12 +12,7 @@ library(jsonlite)
 
 ams_api <- function(path, q, ...) {
   url <- "http://api.arbetsformedlingen.se/"
-  if(missing(q)){
-    link <- httr::modify_url(url = url, query = q, path = path)
-    link <- paste0(link, ...)
-  } else {
-    link <- httr::modify_url(url = url, query = q, path = path)
-  }
+  link <- httr::modify_url(url = url, query = q, path = path)
   print(link)
   response <- GET(url = link, add_headers("Accept-Language" = "sv"))
   print(response$headers[9])
