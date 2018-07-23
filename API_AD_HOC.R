@@ -42,6 +42,15 @@ response <-
     add_headers("Accept-Language" = "sv")
   )
 
+resp <- ams_query_text(testid)
+respdf <- do.call(rbind.data.frame, resp$platsannons$annons) %>%
+  as.tibble()
+
+
+
+respun <- unlist(resp)
+df <- data.frame(matrix(unlist(respun), byrow=T))
+
 status_code(response)
 text_content(response)
 parsed <- jsonlite::fromJSON(content(response, "text"), simplifyVector = FALSE)

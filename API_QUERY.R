@@ -24,7 +24,10 @@ ams_query <- function(lan, kommun, text){
 # Job ads, text
 
 ams_query_text <- function(id){
-  response <- ams_api(path = "af/v0/platsannonser/",
-                      q = list(annonsid = id))
+  url <- "http://api.arbetsformedlingen.se/af/v0/platsannonser/"
+  url <- paste0(url,id)
+  response <- GET(url = url, add_headers("Accept-Language" = "sv"))
+  response <- jsonlite::fromJSON(content(response, "text"),
+                     simplifyVector = FALSE)
   return(response)
 }
