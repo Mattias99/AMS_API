@@ -1,29 +1,25 @@
 #### PACKAGE ####
 
 
-library(jsonlite)
+library("httr")
+library("jsonlite")
 
 
 #======================================
 # QUERY DEFINITIONS:
 #
-# lanid 01 : Stockholm
-# lanid 05 : Östergötland
-# lanid 04 : Södermanland
+# lan_idid 01 : Stockholm
+# lan_idid 05 : Östergötlan_idd
+# lan_idid 04 : Södermanlan_idd
 #
-# kommunid 0483 : Katrineholm
-# kommunid 0480 : Nyköping
-# kommunid 0181 : Södertälje
-# kommunid 0180 : Stockholm 
+# kommun_idid 0483 : Katrineholm
+# kommun_idid 0480 : Nyköping
+# kommun_idid 0181 : Södertälje
+# kommun_idid 0180 : Stockholm 
 #======================================
 
 
-#======================================
-# AD-HOC RESPONSE
-# AMS_QUERY
-#======================================
-
-norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")
-stockholm <- ams_query(lan = 01, kommun = 0180, text = "statistiker")
-norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")
-norrkoping <- ams_query(lan = 05, kommun = 0581, text = "statistiker")
+norrkoping <- ams_query(lan_id = 05, kommun_id = 0581, text = "statistiker")
+stockholm <- ams_query(lan_id = 01, kommun_id = 0180, text = "statistiker")
+katrineholm <- ams_query(lan_id = 04, kommun_id = 0480, text = "statistiker")
+nykoping <- ams_query(lan_id = 04, kommun_id = 0480, text = "statistiker")

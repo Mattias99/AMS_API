@@ -1,7 +1,8 @@
 #### PACKAGE ####
 
 
-library(jsonlite)
+library("httr")
+library("jsonlite")
 
 
 #======================================

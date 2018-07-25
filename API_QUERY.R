@@ -1,31 +1,31 @@
-#======================================
-# QUERY DEFINITIONS:
-#
-# lanid 01 : Stockholm
-# lanid 05 : Östergötland
-# lanid 04 : Södermanland
-#
-# kommunid 0483 : Katrineholm
-# kommunid 0480 : Nyköping
-# kommunid 0181 : Södertälje
-# kommunid 0180 : Stockholm 
-#======================================
-
-# Job ads, meta data
-
-ams_query <- function(lan, kommun, text){
+ams_query <- function(lan_id, kommun_id, text){
+  # Specify your API query.
+  # 
+  # Args:
+  #   lan_id: Specify one numeric county ID
+  #   kommun_id: Specify one numeric municipality ID 
+  #   text: Search by character, use + for multiple words
+  #
+  # Returns:
+  #   List of job ads found by query
   response <- ams_api(path = "af/v0/platsannonser/matchning",
-                      q = list(lanid = lan,
-                               kommunid = kommun,
+                      query = list(lanid = lan_id,
+                               kommunid  = kommun_id,
                                nyckelord = text))
   return(response)
 }
 
-# Job ads, text
 
-ams_query_text <- function(id){
+ams_query_text <- function(job_id){
+  # Download full job ad by specifying JobAnnonsID.
+  #
+  # Args:
+  #   job_id: Numeric ID for job ad  
+  #
+  # Returns:
+  #   List of one job ad
   url <- "http://api.arbetsformedlingen.se/af/v0/platsannonser/"
-  url <- paste0(url,id)
+  url <- paste0(url, job_id)
   response <- GET(url = url, add_headers("Accept-Language" = "sv"))
   response <- jsonlite::fromJSON(content(response, "text"),
                      simplifyVector = FALSE)
