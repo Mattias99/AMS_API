@@ -19,7 +19,7 @@ library("jsonlite")
 #======================================
 
 
-norrkoping <- ams_query(lan_id = 05, kommun_id = 0581, text = "statistiker")
+norrkoping <- ams_query(lan_id = 05, kommun_id = 0581, text = "statistik")
 stockholm <- ams_query(lan_id = 01, kommun_id = 0180, text = "statistiker")
 katrineholm <- ams_query(lan_id = 04, kommun_id = 0480, text = "statistiker")
 nykoping <- ams_query(lan_id = 04, kommun_id = 0480, text = "statistiker")
