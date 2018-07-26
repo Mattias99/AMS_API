@@ -12,10 +12,15 @@ ams_api <- function(path, query, ...) {
   print(link)
   response <- GET(url = link, add_headers("Accept-Language" = "sv"))
   print(response$headers[9])
+  # Error handliing
+  if (!is.list(query)){
+    stop("Invalid input")
+  }
   # Error handling
    if (response$headers[9] != "application/json;charset=utf-8") {
     stop("API did not return json", call. = FALSE)
   }
-  jsonlite::fromJSON(content(response, "text"),
-                     simplifyVector = FALSE)
+  response <- jsonlite::fromJSON(content(response, "text"),
+                                 simplifyVector = FALSE)
+  return(response)
 }

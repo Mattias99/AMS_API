@@ -8,6 +8,12 @@ ams_query <- function(lan_id, kommun_id, text){
   #
   # Returns:
   #   List of job ads found by query
+  #
+  # Error handling
+  if (!is.numeric(lan_id) | !is.numeric(kommun_id) |
+      !is.character(text)){
+    stop("Invalid input")
+  }
   response <- ams_api(path = "af/v0/platsannonser/matchning",
                       query = list(lanid = lan_id,
                                kommunid  = kommun_id,
