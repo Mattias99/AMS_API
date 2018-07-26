@@ -37,14 +37,25 @@ job_meta <- bind_rows(
   )))
 
 #### FULL JOB ADS ####
-
-job_full <- map(api_df$annonsid, ams_query_text) %>%
+#
+# Resource:
+#   https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html
+#
+job_full <- map(job_meta$annonsid, ams_query_text) %>%
   flatten()
 
-
+# Extract a single variable the correct way
 job_adress <- job_full %>%
   map("arbetsplats") %>%
   map_chr("besoksadress")
 
+job_adress <- job_full %>%
+  map("arbetsplats") %>%
+  map_chr("land")
 
-job_full %>% map_chr(c("arbetsplats", "besoksadress"))
+# Attempt to create all variables in the same process
+job_all <- job_full %>% 
+  mutate(
+    land   = map("arbetsplats") %>% map_chr("land"),
+    adress = map("arbetsplats") %>% map_chr("besoksadress") 
+  )
