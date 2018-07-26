@@ -4,6 +4,7 @@
 library("tidyverse")
 library("lubridate")
 
+
 #### TRANSFORMATION ####
 
 
@@ -28,4 +29,5 @@ api_df <- select(norrdata,
   mutate(publiceraddatum = ymd(str_sub(publiceraddatum,
                                        start = 1L, end = 10L)),
          sista_ansokningsdag = ymd(str_sub(sista_ansokningsdag,
-                                           start = 1L, end = 10L)))
+                                           start = 1L, end = 10L))) %>%
+  filter(yrkesbenamning == "Statistiker")
