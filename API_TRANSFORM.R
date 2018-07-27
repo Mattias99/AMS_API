@@ -49,13 +49,12 @@ job_adress <- job_full %>%
   map("arbetsplats") %>%
   map_chr("besoksadress")
 
-job_adress <- job_full %>%
-  map("arbetsplats") %>%
-  map_chr("land")
 
-# Attempt to create all variables in the same process
-job_all <- job_full %>% 
-  mutate(
-    land   = map("arbetsplats") %>% map_chr("land"),
-    adress = map("arbetsplats") %>% map_chr("besoksadress") 
+# Attempt nr. 2 to create all variables in the same process
+job_all <- bind_cols(
+  land   = job_full %>% map("arbetsplats") %>% map_chr("land"),
+  adress = job_full %>% map("arbetsplats") %>% map_chr("besoksadress") 
   )
+
+
+
