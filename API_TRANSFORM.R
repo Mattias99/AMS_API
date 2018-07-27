@@ -52,8 +52,17 @@ job_adress <- job_full %>%
 
 # Attempt nr. 2 to create all variables in the same process
 job_all <- bind_cols(
-  land   = job_full %>% map("arbetsplats") %>% map_chr("land"),
-  adress = job_full %>% map("arbetsplats") %>% map_chr("besoksadress") 
+  id        = job_full %>% map("annons") %>% map_chr("annonsid"),
+  workplace = job_full %>% map("arbetsplats") %>% map_chr("arbetsplatsnamn"),
+  title     = job_full %>% map("annons") %>% map_chr("annonsrubrik"),
+  Work      = job_full %>% map("annons") %>% map_chr("yrkesbenamning"),
+  text      = job_full %>% map("annons") %>% map_chr("annonstext"),
+  web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
+  adress    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
+  county    = job_full %>% map("arbetsplats") %>% map_chr("postord")
+  ) %>% 
+  mutate(
+    
   )
 
 
