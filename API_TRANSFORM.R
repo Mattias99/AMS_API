@@ -60,10 +60,4 @@ job_all <- bind_cols(
   web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
   adress    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
   county    = job_full %>% map("arbetsplats") %>% map_chr("postord")
-  ) %>% 
-  mutate(
-    
   )
-
-
-
