@@ -12,7 +12,7 @@ ams_query <- function(lan_id, kommun_id, text){
   # Error handling
   if (!is.numeric(lan_id) | !is.numeric(kommun_id) |
       !is.character(text)){
-    stop("Invalid input")
+    stop("Invalid input.")
   }
   response <- ams_api(path = "af/v0/platsannonser/matchning",
                       query = list(lanid = lan_id,
@@ -30,6 +30,9 @@ ams_query_text <- function(job_id){
   #
   # Returns:
   #   List of one job ad
+  if (!is.character(job_id)){
+    stop("Specify ID in string.")
+  }
   url <- "http://api.arbetsformedlingen.se/af/v0/platsannonser/"
   url <- paste0(url, job_id)
   response <- GET(url = url, add_headers("Accept-Language" = "sv"))
