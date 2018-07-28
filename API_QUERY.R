@@ -1,9 +1,9 @@
 ams_query <- function(lan_id, kommun_id, text){
   # Specify your API query.
-  # 
+  #
   # Args:
   #   lan_id: Specify one numeric county ID
-  #   kommun_id: Specify one numeric municipality ID 
+  #   kommun_id: Specify one numeric municipality ID
   #   text: Search by character, use + for multiple words
   #
   # Returns:
@@ -26,7 +26,7 @@ ams_query_text <- function(job_id){
   # Download full job ad by specifying JobAnnonsID.
   #
   # Args:
-  #   job_id: Numeric ID for job ad  
+  #   job_id: Numeric ID for job ad
   #
   # Returns:
   #   List of one job ad

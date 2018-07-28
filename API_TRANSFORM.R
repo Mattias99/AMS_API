@@ -38,16 +38,12 @@ job_meta <- bind_rows(
 
 #### FULL JOB ADS ####
 #
-# Resource:
+# Purrr-package resource:
 #   https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html
 #
+
 job_full <- map(job_meta$annonsid, ams_query_text) %>%
   flatten()
-
-# Extract a single variable the correct way
-job_adress <- job_full %>%
-  map("arbetsplats") %>%
-  map_chr("besoksadress")
 
 
 # Attempt nr. 2 to create all variables in the same process
@@ -59,5 +55,19 @@ job_all <- bind_cols(
   text      = job_full %>% map("annons") %>% map_chr("annonstext"),
   web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
   adress    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
-  county    = job_full %>% map("arbetsplats") %>% map_chr("postord")
-  )
+  county    = job_full %>% map("arbetsplats") %>% map_chr("postort"),
+  firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
+  lastday   = job_full %>% map("ansokan") %>% map_chr("sista_ansokningsdag")
+  ) %>%
+  mutate(firstday   = ymd(str_sub(
+    firstday,
+    start = 1L, end = 10L
+  )),
+  lastday = ymd(str_sub(
+    lastday,
+    start = 1L, end = 10L
+  )))
+
+# Remove unused objects
+
+rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
