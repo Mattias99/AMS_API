@@ -23,6 +23,15 @@ job_dist <- google_distance(
 # which convert characters between Encodings.
 
 ams_dir <- function(job_adr, mode){
+  # Connection to Google Direction API
+  # without Encoding problems, i.e. Å-Ä-Ö
+  #
+  # Args:
+  #   path: Supply Job address as a string
+  #   query: Specify type of transportation
+  #
+  # Returns:
+  #   Return same object as from google_directions()
   if (Encoding(job_adr) == "UTF-8"){
     dest <- iconv(job_adr, "UTF-8", "ASCII//TRANSLIT")
   } else if (Encoding(job_adr) == "latin1") {
