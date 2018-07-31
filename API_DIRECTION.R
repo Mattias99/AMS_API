@@ -18,9 +18,6 @@ job_dist <- google_distance(
   simplify    = TRUE
 )
 
-# google_direction cannot handle å, ä or ö.
-# Solution to this problem is the iconv function
-# which convert characters between Encodings.
 
 ams_dir <- function(job_adr, mode){
   # Connection to Google Direction API
@@ -36,6 +33,8 @@ ams_dir <- function(job_adr, mode){
     dest <- iconv(job_adr, "UTF-8", "ASCII//TRANSLIT")
   } else if (Encoding(job_adr) == "latin1") {
     dest <- iconv(job_adr, "latin1", "ASCII//TRANSLIT")
+  } else if (Encoding(job_adr) == "unknown") {
+    dest <- job_adr
   } else {
     stop("Cannot identify Encoding")
   }
@@ -48,3 +47,6 @@ ams_dir <- function(job_adr, mode){
   )
   return(job_dir)
 }
+
+test <- ams_dir(job_adr = "Skarphagen", mode = "transit")
+
