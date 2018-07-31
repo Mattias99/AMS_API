@@ -41,12 +41,18 @@ ams_dir <- function(job_adr, mode){
   print(dest)
   job_dir <- google_directions(
     origin      = set_origin,
-    destination = dest,
+    destination = unname(dest),
     mode        = mode,
     simplify    = TRUE
   )
   return(job_dir)
 }
 
-test <- ams_dir(job_adr = "Skarphagen", mode = "transit")
+test <- ams_dir(job_adr = job_all$address[4], mode = "transit")
+test_dir <- direction_polyline(test)
+test_pl <- decode_pl(test_dir)
 
+test_df <- data.frame("polyline" = test_dir)
+
+google_map() %>% 
+  add_polylines(data = test_df, polyline = "polyline", stroke_weight = 9)
