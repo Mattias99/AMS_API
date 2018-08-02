@@ -8,9 +8,19 @@ library(shinydashboard)
 #### SHINY ####
 
 
-ui <- fluidPage(
-   google_mapOutput(outputId = "map")
+ui <- dashboardPage(
+  dashboardHeader(title = "Job Ads from Arbetsförmedlingen"),
+  dashboardSidebar(),
+  dashboardBody(
+    fluidRow(
+      box(
+        title = "Description of Ad"
+      ),
+      box(google_mapOutput(outputId = "map", height = 250))
+    )
+  )
 )
+  
 
 
 server <- function(input, output) {
@@ -24,4 +34,3 @@ server <- function(input, output) {
 
 #### Run the application ####
 shinyApp(ui = ui, server = server)
-
