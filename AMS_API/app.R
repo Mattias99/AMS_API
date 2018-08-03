@@ -7,19 +7,20 @@ library(shinydashboard)
 
 #### SHINY ####
 
+header <- dashboardHeader(title = "Job Ads from Arbetsförmedlingen")
 
-ui <- dashboardPage(
-  dashboardHeader(title = "Job Ads from Arbetsförmedlingen"),
-  dashboardSidebar(),
-  dashboardBody(
-    fluidRow(
-      box(
-        title = "Description of Ad"
-      ),
-      box(google_mapOutput(outputId = "map", height = 250))
-    )
+sidebar <- dashboardSidebar()
+
+body <- dashboardBody(
+  fluidRow(
+    box(
+      title = "Description of Ad"
+    ),
+    box(google_mapOutput(outputId = "map", height = 250))
   )
 )
+
+ui <- dashboardPage(header, sidebar, body)
   
 
 
