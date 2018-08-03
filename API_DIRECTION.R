@@ -3,17 +3,20 @@
 library("googleway")
 
 
-# Resource:
+#### RESOURCE ####
+
+
 #   https://cran.r-project.org/web/packages/googleway/googleway.pdf
 #   https://cran.r-project.org/web/packages/googleway/vignettes/googleway-vignette.html
-#
 
+
+#### GOOGLE MAP ####
 set_key(key = gc_key)
 
 
 job_dist <- google_distance(
   origin      = set_origin,
-  destination = job_all$address[2],
+  destination = job_all$address[i],
   mode        = "transit",
   simplify    = TRUE
 )
@@ -48,7 +51,7 @@ ams_dir <- function(job_adr, mode){
   return(job_dir)
 }
 
-test <- ams_dir(job_adr = job_all$address[4], mode = "transit")
+test <- ams_dir(job_adr = job_all$address[i], mode = "transit")
 test_dir <- direction_polyline(test)
 test_pl <- decode_pl(test_dir)
 
