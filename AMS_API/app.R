@@ -43,8 +43,7 @@ body <- dashboardBody(
         width = 12,
         solidHeader = TRUE,
         status = "primary",
-        textOutput(outputId = "Text with textOutput"),
-        htmlOutput(outputId = "Text with htmlOutput")
+        verbatimTextOutput("allresult")
   )
  )
 )
@@ -54,11 +53,10 @@ ui <- dashboardPage(header, sidebar, body)
 
 
 server <- function(input, output) {
-  output$map <- renderGoogle_map({
-    test_map
-  }
-    
-  )
+  output$map <- renderGoogle_map(test_map)
+  output$allresult <- renderText(job_all$text[i])
+  
+
   
 }
 
