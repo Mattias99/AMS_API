@@ -68,6 +68,34 @@ job_all <- bind_cols(
     start = 1L, end = 10L
   )))
 
-# Remove unused objects
+#### Remove unused objects ####
+
 
 rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
+
+
+#### KEYWORD SEARCH ####
+
+job_all$text[3]
+
+word_tech <- c("R","SAS", "SPSS", "Excel", "git", "SQL", "MySQL",
+               "Machine learning", "Data mining", "SSIS", "SSAS", 
+               "SSRS", "BI", "Business Intelligence", "Microsoft BI",
+               "ETL", "'databas", "database", "NoSQL", "TensorFlow",
+               "GitHub", "Power BI", "regression", "classification",
+               "clustering", "natural language", "neural network",
+               "models", "algorithms")
+
+word_profession <- c("Statistiker", "Data scientist", "Business Analyst",
+                     "Data Analyst", "Data Engineer", "Data Scientist",
+                     "Data Scientist/ML Engineer", "Marketing Analyst",
+                     "Bi-analytiker")
+
+word_profile <- c("data driven", "analyse", "data science", "Time series",
+                  "Statistics", "statistik", "data", "university",
+                  "universitet", "matematik", "Fraud")
+
+
+str_extract(string = job_all$text[3],pattern = c(word_tech,
+                                                 word_profession,
+                                                 word_profile))
