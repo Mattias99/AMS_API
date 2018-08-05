@@ -13,25 +13,40 @@ sidebar <- dashboardSidebar()
 
 body <- dashboardBody(
   fluidRow(
-    box(title = h1(strong("Job Ad")),
+    box(title = "Job Ad",
         width = 12,
-        h3("Company: "), job_all$workplace,
+        solidHeader = TRUE,
+        status = "primary",
+        h3("Company: "), job_all$workplace[i],
         br(),
-        h3("Title: "), job_all$title,
+        h3("Title: "), job_all$title[i],
         br(),
-        h3("Profession: "), job_all$Work,
+        h3("Profession: "), job_all$Work[i],
         br(),
-        h3("Application: "), a(job_all$web)
+        h3("Application: "), a(job_all$web[i]),
+        br(),
+        h3("Open for Application: "), job_all$firstday[i],
+        " to ", job_all$lastday[i]
       ),
-    box(width = 12,
+    box(title = "Map, Direction and Distance",
+        width = 12,
+        solidHeader = TRUE,
+        status = "primary",
         google_mapOutput(outputId = "map"),
-        h3("Address: "), job_all$address,
+        h3("Address: "), job_all$address[i],
         br(),
         h3("Duration "), job_dist$rows$elements[[1]]$duration$text,
         br(),
         h3("Distance"), job_dist$rows$elements[[1]]$distance$text
+        ),
+    box(title = "Description",
+        width = 12,
+        solidHeader = TRUE,
+        status = "primary",
+        textOutput(outputId = "Text with textOutput"),
+        htmlOutput(outputId = "Text with htmlOutput")
   )
-  )
+ )
 )
 
 ui <- dashboardPage(header, sidebar, body)
