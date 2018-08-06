@@ -46,7 +46,6 @@ job_full <- map(job_meta$annonsid, ams_query_text) %>%
   flatten()
 
 
-# Attempt nr. 2 to create all variables in the same process
 job_all <- bind_cols(
   id        = job_full %>% map("annons") %>% map_chr("annonsid"),
   workplace = job_full %>% map("arbetsplats") %>% map_chr("arbetsplatsnamn"),
@@ -68,6 +67,7 @@ job_all <- bind_cols(
     start = 1L, end = 10L
   )))
 
+
 #### Remove unused objects ####
 
 
@@ -76,26 +76,33 @@ rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
 
 #### KEYWORD SEARCH ####
 
+
 job_all$text[3]
 
-word_tech <- c("R","SAS", "SPSS", "Excel", "git", "SQL", "MySQL",
-               "Machine learning", "Data mining", "SSIS", "SSAS", 
-               "SSRS", "BI", "Business Intelligence", "Microsoft BI",
-               "ETL", "'databas", "database", "NoSQL", "TensorFlow",
-               "GitHub", "Power BI", "regression", "classification",
+word_tech <- c(" r ","sas", "spss", "excel", " git ", "sql", "mysql",
+               "machine learning", "data mining", "ssis", "ssas", 
+               "ssrs", " bi ", "business intelligence", "microsoft bi",
+               "etl ", "'databas", "database", "nosql", "tensorflow",
+               "github", "power bi", "regression", "classification",
                "clustering", "natural language", "neural network",
                "models", "algorithms")
 
-word_profession <- c("Statistiker", "Data scientist", "Business Analyst",
-                     "Data Analyst", "Data Engineer", "Data Scientist",
-                     "Data Scientist/ML Engineer", "Marketing Analyst",
-                     "Bi-analytiker")
+word_profession <- c("statistiker", "data scientist", "business analyst",
+                     "data analyst", "data engineer", "data scientist",
+                     "data scientist/ml engineer", "marketing analyst",
+                     "bi-analytiker")
 
-word_profile <- c("data driven", "analyse", "data science", "Time series",
-                  "Statistics", "statistik", "data", "university",
-                  "universitet", "matematik", "Fraud")
+word_profile <- c("data driven", "analyse", "data science", "time series",
+                  "statistics", "statistik", "data", "university",
+                  "universitet", "matematik", "fraud", "statistiska")
 
 
-str_extract(string = job_all$text[3],pattern = c(word_tech,
-                                                 word_profession,
-                                                 word_profile))
+word_count <- str_extract(string = job_all$text[2],
+                          pattern = coll(c(word_tech,
+                                           word_profession,
+                                           word_profile),
+                                         ignore_case = TRUE))
+
+
+word_count
+length(na.omit(word(word_count)))
