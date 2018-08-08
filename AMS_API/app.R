@@ -39,11 +39,13 @@ body <- dashboardBody(
         br(),
         h3("Distance"), job_dist$rows$elements[[1]]$distance$text
         ),
-    box(title = "Description",
-        width = 12,
-        solidHeader = TRUE,
-        status = "primary",
-        verbatimTextOutput("allresult")
+    tabBox(title = "Description",
+           tabPanel("Description",
+                    verbatimTextOutput("allresult")
+           ),
+           tabPanel("Search Words",
+                    verbatimTextOutput("words"))
+        
   )
  )
 )
@@ -56,7 +58,17 @@ server <- function(input, output) {
   output$map <- renderGoogle_map(test_map)
   output$allresult <- renderText(job_all$text[i])
   
-
+  
+  output$words <- renderText({
+    str_extract(
+      string  = job_all$text[i],
+      pattern = coll(c(
+        word_tech, word_profession, word_profile
+      ),
+      ignore_case = TRUE)
+    ) %>% na.omit(c())
+  })
+  
   
 }
 
