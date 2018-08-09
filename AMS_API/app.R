@@ -17,9 +17,10 @@ body <- dashboardBody(
         width = 12,
         solidHeader = TRUE,
         status = "primary",
-        selectInput("menu", "Choose your input:",
-                    choices = unname(job_all$shiny_menu),
-                    selected = "None")
+        # selectInput("menu", "Choose your input:",
+        #             choices = unname(job_all$shiny_menu),
+        #             selected = "None")
+        htmlOutput("selectUI")
         
     ),
     box(title = "Job Ad",
@@ -50,7 +51,7 @@ body <- dashboardBody(
         ),
     tabBox(width = 12,
            tabPanel("Description",
-                    verbatimTextOutput("allresult")
+                    htmlOutput("desc_text")
            ),
            tabPanel("Search Words",
                     verbatimTextOutput("words"))
@@ -66,9 +67,7 @@ ui <- dashboardPage(header, sidebar, body)
 server <- function(input, output) {
   output$map <- renderGoogle_map(test_map)
   # output$allresult <- renderText(job_all$text[i])
-  output$allresult <- renderText(
-    job_all %>% filter(shiny_menu == input$menu) %>% select(text)
-  )
+  
   
   output$words <- renderText({
     str_extract(
@@ -78,6 +77,29 @@ server <- function(input, output) {
       ),
       ignore_case = TRUE)
     ) %>% na.omit(c())
+  })
+  
+  menu_data <- reactive({
+    job_all$shiny_menu
+  })
+  
+  output$selectUI <- renderUI({
+    selectInput("menu", "Select your choice", menu_data())
+  })
+  
+  
+  # output$allresult <- renderText({job_all$text[i]
+  #     #job_all %>% filter(shiny_menu == "7875631 Ekonom/statistiker till SCB") %>% select(text)
+  # })
+  # 
+  # output$desc_text <- renderText({
+  #   job_all$text[i]
+  # })
+  
+  output$desc_text <- renderText({
+    #job_all[job_all$shiny_menu == menu_data(), "text"]
+    #job_all[job_all$shiny_menu == "7872636 Statistiker", "text"]
+    as.character(job_all[job_all$shiny_menu == menu_data(), "text"])
   })
   
   
