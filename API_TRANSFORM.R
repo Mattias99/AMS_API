@@ -10,10 +10,7 @@ library("lubridate")
 
 
 job_meta <- bind_rows(
-  norrkoping$matchningslista$matchningdata,
-  stockholm$matchningslista$matchningdata,
-  katrineholm$matchningslista$matchningdata,
-  nykoping$matchningslista$matchningdata
+  ams_ads$matchningslista$matchningdata
 ) %>%
   select(
     annonsid,
@@ -35,6 +32,7 @@ job_meta <- bind_rows(
     sista_ansokningsdag,
     start = 1L, end = 10L
   )))
+
 
 #### FULL JOB ADS ####
 #
@@ -58,26 +56,26 @@ job_all <- bind_cols(
   firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
   lastday   = job_full %>% map("ansokan") %>% map_chr("sista_ansokningsdag")
   ) %>%
-  mutate(firstday   = ymd(str_sub(
+  mutate(firstday = ymd(str_sub(
     firstday,
     start = 1L, end = 10L
   )),
   lastday = ymd(str_sub(
     lastday,
     start = 1L, end = 10L
-  )))
+  )),
+  shiny_menu = paste(id, title)
+  )
 
 
 #### Remove unused objects ####
 
 
-rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
+#rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
 
 
 #### KEYWORD SEARCH ####
 
-
-job_all$text[3]
 
 word_tech <- c(" r ","sas", "spss", "excel", " git ", "sql", "mysql",
                "machine learning", "data mining", "ssis", "ssas", 
@@ -97,12 +95,18 @@ word_profile <- c("data driven", "analyse", "data science", "time series",
                   "universitet", "matematik", "fraud", "statistiska")
 
 
-word_count <- str_extract(string = job_all$text[2],
-                          pattern = coll(c(word_tech,
-                                           word_profession,
-                                           word_profile),
-                                         ignore_case = TRUE))
+word_count <- str_extract(string  = job_all$text[i],
+                          pattern = coll(c(word_tech,word_profession,word_profile),
+                                         ignore_case = TRUE)) %>% na.omit(c())
 
+attributes(word_count) <- NULL
 
 word_count
 length(na.omit(word(word_count)))
+
+str(word_count)
+
+
+job_all %>% filter(shiny_menu == "7872636 Statistiker") %>% select(text)
+
+job_all[job_all$shiny_menu == "7872636 Statistiker", "text"]

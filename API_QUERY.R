@@ -1,27 +1,3 @@
-ams_query <- function(lan_id, kommun_id, text){
-  # Specify your API query.
-  #
-  # Args:
-  #   lan_id: Specify one numeric county ID
-  #   kommun_id: Specify one numeric municipality ID
-  #   text: Search by character, use + for multiple words
-  #
-  # Returns:
-  #   List of job ads found by query
-  #
-  # Error handling
-  if (!is.numeric(lan_id) | !is.numeric(kommun_id) |
-      !is.character(text)){
-    stop("Invalid input.")
-  }
-  response <- ams_api(path = "af/v0/platsannonser/matchning",
-                      query = list(lanid = lan_id,
-                               kommunid  = kommun_id,
-                               nyckelord = text))
-  return(response)
-}
-
-
 ams_query_text <- function(job_id){
   # Download full job ad by specifying JobAnnonsID.
   #

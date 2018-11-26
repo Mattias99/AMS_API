@@ -57,8 +57,8 @@ test_pl <- decode_pl(test_dir)
 
 test_df <- data.frame("polyline" = test_dir)
 
-google_map() %>% 
+google_map() %>%
   add_polylines(data = test_df, polyline = "polyline", stroke_weight = 9)
 
-test_map <- google_map() %>% 
+test_map <- google_map() %>%
   add_polylines(data = test_df, polyline = "polyline", stroke_weight = 9)

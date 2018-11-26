@@ -62,8 +62,14 @@ parsed <- jsonlite::fromJSON(content(response, "text"), simplifyVector = FALSE)
 # AMS_QUERY
 #======================================
 
-norrkoping <- AMS_QUERY(lan = 05, kommun = 0581, text = "statistik")
+
+norrkoping <- ams_query(lan_id = 05, kommun_id = 0581, text = "norrköping")
 
 test <- do.call(rbind.data.frame, norrkoping$matchningslista$matchningdata)
 
-norrkoping
+
+
+response <- ams_api(path = "af/v0/platsannonser/matchning",
+                    query = list(lan_id = "04 05",
+                                  nyckelord = "statistiker"))
+

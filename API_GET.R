@@ -24,3 +24,6 @@ ams_api <- function(path, query, ...) {
                                  simplifyVector = FALSE)
   return(response)
 }
+
+ams_ads <- ams_api(path = "af/v0/platsannonser/matchning",
+                   query = list(nyckelord = "statistiker"))
