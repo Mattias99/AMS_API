@@ -6,7 +6,7 @@ ams_api <- function(path, query, ...) {
   #   query: Specify query as a list
   #
   # Returns:
-  #   TODO(Mattias): Explain returned object
+  #   TODO: Explain returned object
   url <- "http://api.arbetsformedlingen.se/"
   link <- httr::modify_url(url = url, query = query, path = path)
   print(link)
@@ -25,5 +25,11 @@ ams_api <- function(path, query, ...) {
   return(response)
 }
 
-ams_ads <- ams_api(path = "af/v0/platsannonser/matchning",
-                   query = list(nyckelord = "statistiker"))
+ams_stat <- ams_api(path = "af/v0/platsannonser/matchning",
+                    query = list(nyckelord = "statistiker"))
+
+ams_datascien <- ams_api(path = "af/v0/platsannonser/matchning",
+                         query = list(nyckelord = "data scietist"))
+
+ams_bi <- ams_api(path = "af/v0/platsannonser/matchning",
+                  query = list(nyckelord = "business intelligence"))

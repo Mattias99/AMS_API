@@ -1,5 +1,65 @@
 #### TRANSFORMATION ####
 
+ads <- function(ads_format){
+  # Reformat list data into tidy data.
+  #
+  # Args:
+  #   ads_format: List object from ams_api
+  #
+  # Returns:
+  #   data.frame with ads from a specific query
+  job_meta <- bind_rows(
+    ads_format$matchningslista$matchningdata
+  ) %>%
+    select(
+      annonsid,
+      annonsrubrik,
+      yrkesbenamning,
+      yrkesbenamningId,
+      arbetsplatsnamn,
+      kommunnamn,
+      lan,
+      publiceraddatum,
+      sista_ansokningsdag
+    ) %>%
+    filter(yrkesbenamning == "Statistiker") %>%
+    mutate(publiceraddatum   = ymd(str_sub(
+      publiceraddatum,
+      start = 1L, end = 10L
+    )),
+    sista_ansokningsdag = ymd(str_sub(
+      sista_ansokningsdag,
+      start = 1L, end = 10L
+    )))
+  
+  job_full <- map(job_meta$annonsid, ams_query_text) %>%
+    flatten()
+  
+  
+  job_all <- bind_cols(
+    id        = job_full %>% map("annons") %>% map_chr("annonsid"),
+    workplace = job_full %>% map("arbetsplats") %>% map_chr("arbetsplatsnamn"),
+    title     = job_full %>% map("annons") %>% map_chr("annonsrubrik"),
+    Work      = job_full %>% map("annons") %>% map_chr("yrkesbenamning"),
+    text      = job_full %>% map("annons") %>% map_chr("annonstext"),
+    web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
+    address    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
+    county    = job_full %>% map("arbetsplats") %>% map_chr("postort"),
+    firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
+    lastday   = job_full %>% map("ansokan") %>% map_chr("sista_ansokningsdag")
+  ) %>%
+    mutate(firstday = ymd(str_sub(
+      firstday,
+      start = 1L, end = 10L
+    )),
+    lastday = ymd(str_sub(
+      lastday,
+      start = 1L, end = 10L
+    )),
+    shiny_menu = paste(id, title)
+    )
+  
+}
 
 job_meta <- bind_rows(
   ams_ads$matchningslista$matchningdata
