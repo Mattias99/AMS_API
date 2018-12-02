@@ -8,6 +8,12 @@ ads <- function(ads_format){
   #
   # Returns:
   #   data.frame with ads from a specific query
+  
+  # Error handling
+  if (is.null(ads_format$matchningslista$matchningdata)){
+    stop("Zero ads")
+  }
+  
   job_meta <- bind_rows(
     ads_format$matchningslista$matchningdata
   ) %>%
@@ -22,7 +28,6 @@ ads <- function(ads_format){
       publiceraddatum,
       sista_ansokningsdag
     ) %>%
-    filter(yrkesbenamning == "Statistiker") %>%
     mutate(publiceraddatum   = ymd(str_sub(
       publiceraddatum,
       start = 1L, end = 10L
@@ -42,8 +47,8 @@ ads <- function(ads_format){
     title     = job_full %>% map("annons") %>% map_chr("annonsrubrik"),
     Work      = job_full %>% map("annons") %>% map_chr("yrkesbenamning"),
     text      = job_full %>% map("annons") %>% map_chr("annonstext"),
-    web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
-    address    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
+    #web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
+    address   = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
     county    = job_full %>% map("arbetsplats") %>% map_chr("postort"),
     firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
     lastday   = job_full %>% map("ansokan") %>% map_chr("sista_ansokningsdag")
@@ -59,71 +64,22 @@ ads <- function(ads_format){
     shiny_menu = paste(id, title)
     )
   
+  return(job_all)
+
 }
 
-job_meta <- bind_rows(
-  ams_ads$matchningslista$matchningdata
-) %>%
-  select(
-    annonsid,
-    annonsrubrik,
-    yrkesbenamning,
-    yrkesbenamningId,
-    arbetsplatsnamn,
-    kommunnamn,
-    lan,
-    publiceraddatum,
-    sista_ansokningsdag
-  ) %>%
-  filter(yrkesbenamning == "Statistiker") %>%
-  mutate(publiceraddatum   = ymd(str_sub(
-    publiceraddatum,
-    start = 1L, end = 10L
-  )),
-  sista_ansokningsdag = ymd(str_sub(
-    sista_ansokningsdag,
-    start = 1L, end = 10L
-  )))
 
+ads(ams_stat)
+ads(ams_datascien)
+ads(ams_ams_bi)
 
-#### FULL JOB ADS ####
-#
-# Purrr-package resource:
-#   https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html
-#
+ams_datascien$matchningslista$matchningdata
 
-job_full <- map(job_meta$annonsid, ams_query_text) %>%
-  flatten()
+do.call(r.bind, list(ads(ams_stat),
+                     ads(ams_datascien),
+                     ads(ams_ams_bi)))
 
-
-job_all <- bind_cols(
-  id        = job_full %>% map("annons") %>% map_chr("annonsid"),
-  workplace = job_full %>% map("arbetsplats") %>% map_chr("arbetsplatsnamn"),
-  title     = job_full %>% map("annons") %>% map_chr("annonsrubrik"),
-  Work      = job_full %>% map("annons") %>% map_chr("yrkesbenamning"),
-  text      = job_full %>% map("annons") %>% map_chr("annonstext"),
-  web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
-  address    = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
-  county    = job_full %>% map("arbetsplats") %>% map_chr("postort"),
-  firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
-  lastday   = job_full %>% map("ansokan") %>% map_chr("sista_ansokningsdag")
-  ) %>%
-  mutate(firstday = ymd(str_sub(
-    firstday,
-    start = 1L, end = 10L
-  )),
-  lastday = ymd(str_sub(
-    lastday,
-    start = 1L, end = 10L
-  )),
-  shiny_menu = paste(id, title)
-  )
-
-
-#### Remove unused objects ####
-
-
-#rm(job_meta, job_full)
+do.call(r.bind, )
 
 
 #### KEYWORD SEARCH ####
