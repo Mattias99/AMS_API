@@ -47,7 +47,7 @@ ads <- function(ads_format){
     title     = job_full %>% map("annons") %>% map_chr("annonsrubrik"),
     Work      = job_full %>% map("annons") %>% map_chr("yrkesbenamning"),
     text      = job_full %>% map("annons") %>% map_chr("annonstext"),
-    #web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
+    web       = job_full %>% map("ansokan") %>% map_chr("webbplats"),
     address   = job_full %>% map("arbetsplats") %>% map_chr("besoksadress"),
     county    = job_full %>% map("arbetsplats") %>% map_chr("postort"),
     firstday  = job_full %>% map("annons") %>% map_chr("publiceraddatum"),
