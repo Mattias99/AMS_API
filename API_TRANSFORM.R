@@ -1,12 +1,4 @@
-#### PACKAGE ####
-
-
-library("tidyverse")
-library("lubridate")
-
-
 #### TRANSFORMATION ####
-
 
 
 job_meta <- bind_rows(
@@ -71,7 +63,7 @@ job_all <- bind_cols(
 #### Remove unused objects ####
 
 
-#rm(katrineholm, norrkoping, stockholm, nykoping, job_meta, job_full)
+#rm(job_meta, job_full)
 
 
 #### KEYWORD SEARCH ####
@@ -98,15 +90,3 @@ word_profile <- c("data driven", "analyse", "data science", "time series",
 word_count <- str_extract(string  = job_all$text[i],
                           pattern = coll(c(word_tech,word_profession,word_profile),
                                          ignore_case = TRUE)) %>% na.omit(c())
-
-attributes(word_count) <- NULL
-
-word_count
-length(na.omit(word(word_count)))
-
-str(word_count)
-
-
-job_all %>% filter(shiny_menu == "7872636 Statistiker") %>% select(text)
-
-job_all[job_all$shiny_menu == "7872636 Statistiker", "text"]

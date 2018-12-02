@@ -1,10 +1,3 @@
-#### PACKAGE ####
-
-
-library("httr")
-library("jsonlite")
-
-
 #======================================
 # QUERY DEFINITIONS:
 #
@@ -73,3 +66,21 @@ response <- ams_api(path = "af/v0/platsannonser/matchning",
                     query = list(lan_id = "04 05",
                                   nyckelord = "statistiker"))
 
+
+#======================================
+# AD-HOC RESPONSE
+# API_TRANSFORM
+#======================================
+
+
+attributes(word_count) <- NULL
+
+word_count
+length(na.omit(word(word_count)))
+
+str(word_count)
+
+
+job_all %>% filter(shiny_menu == "7872636 Statistiker") %>% select(text)
+
+job_all[job_all$shiny_menu == "7872636 Statistiker", "text"]
